@@ -1,9 +1,11 @@
 package services;
 
+import dataaccess.RoleDB;
 import models.User;
 import java.util.List;
 import dataaccess.UserDB;
 import java.util.ArrayList;
+import models.Role;
 
 /**
  * 
@@ -32,15 +34,8 @@ public class UserService {
      */
     public List<User> getAll() throws Exception {
         UserDB db = new UserDB();
-        ArrayList<User> userList = (ArrayList<User>) db.getAll();
-        ArrayList<User> activeUsers = new ArrayList<>();
-        
-        for (int i = 0; i < userList.size(); i++) {
-            if(userList.get(i).isActive()) {
-                activeUsers.add(userList.get(i));
-            }
-        }
-        return activeUsers;
+        ArrayList<User> userList = (ArrayList<User>) db.getActive();
+        return userList;
     }
 
     /**
@@ -49,11 +44,12 @@ public class UserService {
      * @return
      * @throws Exception 
      */
-    public int update(String email, String fname, String lname, String password) throws Exception {
+    public int update(String email, String fname, String lname, String password, int roleID) throws Exception {
         UserDB db = new UserDB();
-        User user = new User(email, fname, lname, password, null);
-        int i = db.update(user);
-        return i;
+        RoleDB rdb = new RoleDB();
+        Role role = rdb.getRole(roleID);
+        User user = new User(email, fname, lname, password, role);
+        return db.update(user);
     }
 
     /**
@@ -78,9 +74,11 @@ public class UserService {
      * @return the int from UserDb
      * @throws Exception - all exceptions that could be had.
      */
-    public int insert(String email, String fname, String lname, String password) throws Exception {
+    public int insert(String email, String fname, String lname, String password, int roleID) throws Exception {
         UserDB db = new UserDB();
-        User user = new User(email, fname, lname, password, null);
+        RoleDB rdb = new RoleDB();
+        Role role = rdb.getRole(roleID);
+        User user = new User(email, fname, lname, password, role);
         int i = db.insert(user);
         return i;
     }
