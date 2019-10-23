@@ -39,8 +39,7 @@ public class UserDB {
             ps.setString(2, user.getFname());
             ps.setString(3, user.getLname());
             ps.setString(4, user.getPassword());
-            Role role = user.getRole();
-            ps.setInt(5, role.getRoleID());
+            ps.setInt(5, user.getRole().getRoleID());
 
             int rows = ps.executeUpdate();
             ps.close();
@@ -71,8 +70,7 @@ public class UserDB {
             statement.setString(2, user.getFname());
             statement.setString(3, user.getLname());
             statement.setString(4, user.getPassword());
-            Role role = user.getRole();
-            statement.setInt(5, role.getRoleID());
+            statement.setInt(5, user.getRole().getRoleID());
             statement.setString(6, user.getEmail());
 
             int rows = statement.executeUpdate();

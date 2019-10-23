@@ -63,7 +63,7 @@
             />
           <select class="input-dark" name="urole">
              <c:forEach items="${roles}" var="role"> 
-              <option>${role.roleName}</option>
+              <option value="${role.roleID}">${role.roleName}</option>
              </c:forEach> 
           </select>
           <input type="hidden" name="action" value="add" />
@@ -151,12 +151,7 @@
           <select class="input-dark" name="urole">
              <c:forEach items="${roles}" var="role"> 
                     <c:if test="${user.role.roleID == role.roleID}">
-                        <option>${role.roleName}</option>
-                    </c:if>
-             </c:forEach> 
-             <c:forEach items="${roles}" var="role"> 
-                    <c:if test="${user.role.roleID != role.roleID}">
-                        <option>${role.roleName}</option>
+                        <option value="${role.roleID}">${role.roleName}</option>
                     </c:if>
              </c:forEach>            
           </select>

@@ -92,14 +92,13 @@ public class UserServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
           throws ServletException, IOException {
     UserService us = new UserService();
+     RoleService rs = new RoleService();
     
     String email = request.getParameter("email");
     String fname = request.getParameter("fname");
     String lname = request.getParameter("lname");
     String password = request.getParameter("password");
-    String urole = request.getParameter("urole");
-    Role role = new Role();
-    role.setRoleName(urole);
+    int urole = Integer.parseInt(request.getParameter("urole"));
     String action = request.getParameter("action");
     action = action == null ? "" : action;
 
@@ -107,13 +106,13 @@ public class UserServlet extends HttpServlet {
       switch (action) {
         case "add":
           if (checkIsValid(new String[]{email, fname, lname, password})) {
-            us.insert(email, fname, lname, password, role.getRoleID());
+            us.insert(email, fname, lname, password, urole);
           } else {
             request.setAttribute("error", "All fields are required");
           }
         case "edit":
           if (checkIsValid(new String[]{email, fname, lname})) {
-            us.update(email, fname, lname, password, role.getRoleID());
+            us.update(email, fname, lname, password, urole);
           } else {
             request.setAttribute("error", "All fields are required");
           }
@@ -127,6 +126,7 @@ public class UserServlet extends HttpServlet {
     } catch (Exception ex) {
       request.setAttribute("error", ex.getMessage());
     }
+ 
 
     getServletContext().getRequestDispatcher("/WEB-INF/users.jsp")
             .forward(request, response);
