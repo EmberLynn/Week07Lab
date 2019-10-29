@@ -55,16 +55,15 @@ public class RoleDB {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
             ArrayList<Role> roles = new ArrayList<>();
-            Role role;
             String preparedQuery = "SELECT RoleID, RoleName FROM role_table";
             PreparedStatement ps = connection.prepareStatement(preparedQuery);
             ResultSet rs = ps.executeQuery();
             
             while(rs.next())
             {
-                int roleID = rs.getInt(1);
-                String roleName = rs.getString(2);
-                role = new Role(roleID,roleName);
+                Role role = new Role();
+                role.setRoleID(rs.getInt(1));
+                role.setRoleName(rs.getString(2));
                 roles.add(role);
             }
             
@@ -106,9 +105,10 @@ public class RoleDB {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
 
-            String DELETE_STMT = "DELETE FROM role_table WHERE RoleID = ?";
+            String DELETE_STMT = "DELETE FROM role_table WHERE RoleID = ? AND RoleName";
             PreparedStatement prepare = connection.prepareStatement(DELETE_STMT);
-            prepare.setString(1, role.getRoleName());
+            prepare.setInt(1, role.getRoleID());
+            prepare.setString(2, role.getRoleName());
 
             int rows = prepare.executeUpdate();
             prepare.close();
@@ -127,12 +127,12 @@ public class RoleDB {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
 
-            String preparedQuery = "UPDATE role_table SET RoleName=? WHERE RoleID=?";
+            String preparedQuery = "UPDATE role_table SET RoleID = ?, RoleName = ? WHERE RoleID = ?";
             
 
             PreparedStatement statement = connection.prepareStatement(preparedQuery);
-            statement.setString(1, role.getRoleName());
-            statement.setInt(2, role.getRoleID());
+            statement.setInt(1, role.getRoleID());
+            statement.setString(2, role.getRoleName());
 
             int rows = statement.executeUpdate();
             statement.close();

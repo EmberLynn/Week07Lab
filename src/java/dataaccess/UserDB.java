@@ -63,7 +63,7 @@ public class UserDB {
             connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection();
 
-            String preparedQuery = "UPDATE User_Table SET active=?, fname=?, lname=?, password=? role=? WHERE email=?";
+            String preparedQuery = "UPDATE User_Table SET active=?, fname=?, lname=?, password=?, role=? WHERE email=?";
             
             PreparedStatement statement = connection.prepareStatement(preparedQuery);
             statement.setBoolean(1, user.isActive());

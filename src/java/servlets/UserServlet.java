@@ -110,12 +110,14 @@ public class UserServlet extends HttpServlet {
           } else {
             request.setAttribute("error", "All fields are required");
           }
+          break;
         case "edit":
           if (checkIsValid(new String[]{email, fname, lname})) {
             us.update(email, fname, lname, password, urole);
           } else {
             request.setAttribute("error", "All fields are required");
           }
+          break;
       }
     } catch (Exception ex) {
       request.setAttribute("error", ex.getMessage());
@@ -126,6 +128,10 @@ public class UserServlet extends HttpServlet {
     } catch (Exception ex) {
       request.setAttribute("error", ex.getMessage());
     }
+    try {
+      request.setAttribute("roles", rs.getAll());
+    } catch(Exception e) {
+      request.setAttribute("error", e.getMessage());}
  
 
     getServletContext().getRequestDispatcher("/WEB-INF/users.jsp")

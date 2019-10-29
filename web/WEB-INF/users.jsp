@@ -151,6 +151,9 @@
           <select class="input-dark" name="urole">
              <c:forEach items="${roles}" var="role"> 
                     <c:if test="${user.role.roleID == role.roleID}">
+                        <option value="${role.roleID}" selected>${role.roleName}</option>
+                    </c:if>
+                    <c:if test="${user.role.roleID != role.roleID}">
                         <option value="${role.roleID}">${role.roleName}</option>
                     </c:if>
              </c:forEach>            
